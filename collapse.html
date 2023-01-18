@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <style>
+            *,
+            *::before,
+            *::after {
+                box-sizing: border-box;
+            }
+            body,
+            h1,
+            h2,
+            h3,
+            h4,
+            p,
+            figure,
+            blockquote,
+            dl,
+            dd {
+                margin: 0;
+            }
+            .collapse-group {
+                border-bottom: 1px solid #bdc0c5;
+                margin: 0;
+                padding: 24px 0 0;
+            }
+
+            .heading {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                cursor: pointer;
+            }
+
+            .collapse-list {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                max-height: 0;
+                visibility: hidden;
+                transition: max-height 0.4s ease-in-out,
+                    visibility 0.1s ease-in-out 0.1s;
+            }
+
+            .heading span {
+                transition: transform 0.4s ease-in-out;
+            }
+
+            .is-expanded .collapse-list {
+                max-height: 400px;
+                visibility: visible;
+            }
+
+            .is-expanded .heading span {
+                transform: rotate(180deg);
+            }
+        </style>
+        <title>Document</title>
+    </head>
+    <body>
+        <div class="collapse-group">
+            <h4 class="heading">
+                Heading
+                <span> 🔽 </span>
+            </h4>
+            <ul class="collapse-list">
+                <li class="collapse-item">
+                    <a href="">Test</a>
+                </li>
+                <li class="collapse-item">
+                    <a href="">Test</a>
+                </li>
+                <li class="collapse-item">
+                    <a href="">Test</a>
+                </li>
+                <li class="collapse-item">
+                    <a href="">Test</a>
+                </li>
+            </ul>
+        </div>
+
+        <script>
+            const collapseGroup = document.querySelector('.collapse-group');
+            const collapseList = document.querySelector('.collapse-list');
+            const heading = document.querySelector('.heading');
+
+            heading.addEventListener('click', () => {
+                collapseGroup.classList.toggle('is-expanded');
+            });
+        </script>
+    </body>
+</html>
