@@ -22,73 +22,180 @@
             dd {
                 margin: 0;
             }
-            .collapse-group {
-                border-bottom: 1px solid #bdc0c5;
-                margin: 0;
-                padding: 24px 0 0;
+            .wrapper {
+                display: grid;
+                grid-template-columns: 1fr min(99ch, 100%) 1fr;
+            }
+            .wrapper > * {
+                grid-column: 2;
+            }
+            .full-bleed {
+                width: 100%;
+                grid-column: 1 / 4;
+            }
+            .full-bleed {
+                width: 100%;
+                grid-column: 1 / 4;
+            }
+            body {
+                min-height: 100vh;
+                scroll-behavior: smooth;
+                text-rendering: optimizeSpeed;
+                line-height: 1.5;
+                font-family: system-ui, -apple-system, BlinkMacSystemFont,
+                    'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',
+                    'Helvetica Neue', sans-serif;
+
+                font-size: 16px;
             }
 
-            .heading {
+            body > * {
+                grid-column: 2;
+            }
+
+            header {
+                text-align: center;
                 display: flex;
+                flex-direction: column;
                 align-items: center;
-                justify-content: space-between;
+                gap: 1rem;
+                margin-block: 4rem;
+            }
+
+            button.accordian {
+                background-color: transparent;
+                color: #354153;
                 cursor: pointer;
+                padding: 18px;
+                width: 100%;
+                text-align: left;
+                border: none;
+                outline: none;
+                transition: 0.4s ease-in-out;
+                font-size: 1rem;
+                font-weight: 600;
             }
 
-            .collapse-list {
-                list-style: none;
-                padding: 0;
-                margin: 0;
+            button.accordian:after {
+                content: '\002B';
+                color: inherit;
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
+                transition: 0.4s ease-in-out;
+                font-size: inherit;
+                border: 2px solid #354153;
+                border-radius: 50%;
+                width: 1.5rem;
+                height: 1.5rem;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            button.accordian.active:after {
+                transform: rotate(45deg);
+                transition: 0.4s;
+            }
+
+            button.accordian.active,
+            button.accordian:hover {
+                background-color: rgb(246, 246, 246);
+                transition: 0.4s;
+            }
+
+            div.panel {
+                padding: 0 18px;
+                background-color: #ffffff;
                 max-height: 0;
-                visibility: hidden;
-                transition: max-height 0.4s ease-in-out,
-                    visibility 0.1s ease-in-out 0.1s;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                color: black;
+                border-bottom: 1px solid #ddd;
             }
 
-            .heading span {
-                transition: transform 0.4s ease-in-out;
-            }
-
-            .is-expanded .collapse-list {
-                max-height: 400px;
-                visibility: visible;
-            }
-
-            .is-expanded .heading span {
-                transform: rotate(180deg);
+            div.panel > * {
+                margin-block: 1rem;
+                color: rgba(0, 0, 0, 0.6);
             }
         </style>
         <title>Document</title>
     </head>
     <body>
-        <div class="collapse-group">
-            <h4 class="heading">
-                Heading
-                <span> 🔽 </span>
-            </h4>
-            <ul class="collapse-list">
-                <li class="collapse-item">
-                    <a href="">Test</a>
-                </li>
-                <li class="collapse-item">
-                    <a href="">Test</a>
-                </li>
-                <li class="collapse-item">
-                    <a href="">Test</a>
-                </li>
-                <li class="collapse-item">
-                    <a href="">Test</a>
-                </li>
-            </ul>
-        </div>
+        <main class="wrapper">
+            <header class="heading">
+                <small>FAQs</small>
+                <h1>Freequently asked questions</h1>
+            </header>
+            <section class="container">
+                <article class="faq">
+                    <button class="accordian" aria-labelledby="panel1">
+                        How much does it cost?
+                    </button>
+                    <div class="panel" id="panel1">
+                        <p>
+                            The cost of the course is $199.99. This includes all
+                            of the course materials, as well as access to the
+                            private Facebook group. You will also receive a
+                            certificate of completion upon completion of the
+                            course.
+                        </p>
+                    </div>
+                </article>
+                <article class="faq">
+                    <button class="accordian" aria-labelledby="panel2">
+                        Is there a free trial available?
+                    </button>
+                    <div class="panel" id="panel2">
+                        <p>
+                            Yes! We offer a free trial of the course for 7 days.
+                            You can sign up for the free trial
+                            <a href="#">here</a>.
+                        </p>
+                    </div>
+                </article>
+                <article class="faq">
+                    <button class="accordian" aria-labelledby="panel3">
+                        Can I cancel my subscription?
+                    </button>
+                    <div class="panel" id="panel3">
+                        <p>
+                            Yes! You can cancel your subscription at any time.
+                            To cancel your subscription, please
+                            <a href="#">click here</a>.
+                        </p>
+                    </div>
+                </article>
+                <article class="faq">
+                    <button class="accordian" aria-labelledby="panel4">
+                        What if I have more questions?
+                    </button>
+                    <div class="panel" id="panel4">
+                        <p>
+                            If you have any questions, please
+                            <a href="#">contact us</a>.
+                        </p>
+                    </div>
+                </article>
+            </section>
+        </main>
 
         <script>
-            const collapseGroup = document.querySelector('.collapse-group');
-            const collapseList = document.querySelector('.collapse-list');
-            const heading = document.querySelector('.heading');
+            const accordianButtons = document.querySelectorAll('.accordian');
 
-            heading.addEventListener('click', () => {
-                collapseGroup.classList.toggle('is-expanded');
+            accordianButtons.forEach((button) => {
+                button.addEventListener('click', (e) => {
+                    const panel = document.getElementById(
+                        e.target.getAttribute('aria-labelledby')
+                    );
+                    button.classList.toggle('active');
+
+                    if (panel.style.maxHeight) {
+                        panel.style.maxHeight = null;
+                    } else {
+                        panel.style.maxHeight = panel.scrollHeight + 'px';
+                    }
+                });
             });
         </script>
     </body>
